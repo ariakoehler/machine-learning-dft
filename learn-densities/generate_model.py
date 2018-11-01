@@ -11,7 +11,7 @@ from keras.layers import MaxPooling3D, Conv3D
 
 def generate_model(data):
     n_row, n_col = data.shape
-    inputs = Input(shape=(1,), dtype='float32', name='spacial_data')
+    inputs = Input(shape=(data.shape[1],), dtype='float32', name='spacial_data')
     
     deep_node1 = Dense(units=80, activation='relu', name='deep1')(inputs)
     dropout1 = Dropout(rate=0.2, name='drop1')(deep_node1)
@@ -22,14 +22,14 @@ def generate_model(data):
     deep_node3 = Dense(units=40, activation='relu', name='deep3')(dropout2)
     dropout3 = Dropout(rate=0.2, name='drop3')(deep_node3)
 
-    deep_node4 = Dense(units=20, activation='relu', name='deep4')(dropout3)
+    deep_node4 = Dense(units=1, activation='relu', name='deep4')(dropout3)
 
     model = Model(inputs=inputs, outputs=deep_node4)
 
     return model
 
 
-def train_model(model, data):
+def train_model(model, X, y):
       model.compile(optimizer='sgd',
                 loss='mean_squared_error',
                 metrics=['acc'])
@@ -38,6 +38,5 @@ def train_model(model, data):
 
       #training and validating on the same data for now
       history = model.fit(
-          data[0], data[-1],
-          epochs=2, verbose=1,
-          validation_data=(data[0], data[-1]))
+          X, y, epochs=2, verbose=1,
+          validation_data=(X,y))

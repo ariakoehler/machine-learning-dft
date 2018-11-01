@@ -1,3 +1,4 @@
 *.err
 *.out
+*.sbatch
 learn-densities/__pycache__/

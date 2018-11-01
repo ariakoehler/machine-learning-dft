@@ -24,8 +24,12 @@ if __name__=='__main__':
 
   atomic_data = pickle.load(open('atomic_data_clean.p', 'rb'))
 
-  print(atomic_data)
+  atom_data = atomic_data[:,:-1]
+  energy_data = atomic_data[:,-1]
 
-  model = generate_model(atomic_data)
+  print(atom_data.shape, energy_data.shape)
 
-  # history = train_model(model, atomic_data)
+  model = generate_model(atom_data)
+
+  history = train_model(model, atom_data, energy_data)
+  print(history)
