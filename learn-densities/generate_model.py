@@ -10,25 +10,34 @@ from keras.layers import MaxPooling3D, Conv3D
 
 
 def generate_model(data):
-    model = Model()
-
     n_row, n_col = data.shape
-    inputs = [Input(shape=(1,), dtype='int32', name='spacial_data')]
+    inputs = Input(shape=(1,), dtype='float32', name='spacial_data')
     
     deep_node1 = Dense(units=80, activation='relu', name='deep1')(inputs)
     dropout1 = Dropout(rate=0.2, name='drop1')(deep_node1)
 
-    deep_node2 = Dense(units=50, activation='relu', name='deep1')(dropout1)
-    dropout2 = Dropout(rate=0.2, name='drop1')(deep_node2)
+    deep_node2 = Dense(units=50, activation='relu', name='deep2')(dropout1)
+    dropout2 = Dropout(rate=0.2, name='drop2')(deep_node2)
 
-    deep_node3 = Dense(units=40, activation='relu', name='deep1')(dropout2)
-    dropout3 = Dropout(rate=0.2, name='drop1')(deep_node3)
+    deep_node3 = Dense(units=40, activation='relu', name='deep3')(dropout2)
+    dropout3 = Dropout(rate=0.2, name='drop3')(deep_node3)
 
-    deep_node4 = Dense(units=20, activation='relu', name='deep1')(dropout3)
+    deep_node4 = Dense(units=20, activation='relu', name='deep4')(dropout3)
 
     model = Model(inputs=inputs, outputs=deep_node4)
 
     return model
 
 
-def train_model(model, data)
+def train_model(model, data):
+      model.compile(optimizer='sgd',
+                loss='mean_squared_error',
+                metrics=['acc'])
+
+      model.reset_states()
+
+      #training and validating on the same data for now
+      history = model.fit(
+          data[0], data[-1],
+          epochs=2, verbose=1,
+          validation_data=(data[0], data[-1]))

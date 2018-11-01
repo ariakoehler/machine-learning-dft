@@ -17,14 +17,15 @@ if __name__=='__main__':
   # atomic_data = [get_cube_data(data_file) for data_file in files]
   # input_data = [[] for atom in atomic_data]
 
-  atomic_data = clean_density_data(atomic_numbers, locations, densities)
+
+  # atomic_data = clean_density_data(atomic_numbers, locations, densities)
   # print(atomic_data.shape, atomic_data)
   # pickle.dump(atomic_data, open('atomic_data_clean.p', 'wb'))
 
+  atomic_data = pickle.load(open('atomic_data_clean.p', 'rb'))
+
+  print(atomic_data)
 
   model = generate_model(atomic_data)
-  model.compile(optimizer='sgd',
-                loss='mean_squared_error',
-                metrics=['acc'])
-  history_train = model.fit(
-    atomic_data[]
+
+  # history = train_model(model, atomic_data)
